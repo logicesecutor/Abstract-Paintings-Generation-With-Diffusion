@@ -1,0 +1,19 @@
+name: thesis
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - pytorch==1.13.1
+  - pytorch-cuda=11.7
+  - torchaudio==0.13.1
+  - torchvision==0.14.1
+  - pytorch-lightning==2.0.0
+  - omegaconf==2.3.0
+  - scikit-learn==1.2.0
+  - einops==0.6.0
+  - tensorboard
+  - scikit-image
+  - matplotlib
+  - scikit-learn-extra
+  - pip:
+    -albumentations==1.3.0
