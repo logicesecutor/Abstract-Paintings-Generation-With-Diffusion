@@ -42,6 +42,27 @@ pip install wget
 ## The Dataset preparation
 
 ## The Configuration file
-In the configs folder there are some configuration files:
+In the configs folder there are some configuration files which contains the settings for the training phase.
+From here we can set the VQGAN, the diffusion model, and manage all the Dataset directory.
 
+In order to give the net our custom dataset we must provide 2 file txt that contains the path list to single images and 2 file txt which contains the categorical labels corresponding to the images in this format:
 
+$path/to/dataset/train.txt
+path_to_image_1.txt
+path_to_image_2.txt
+path_to_image_3.txt
+path_to_image_4.txt
+.....
+path_to_image_n.txt
+
+$path/to/dataset/train_labels.txt
+label_image_1.txt
+label_image_2.txt
+label_image_3.txt
+label_image_4.txt
+.....
+label_image_n.txt
+
+We should have a 'train.txt', 'train_labels.txt' and a 'validation.txt' file, 'validation_labels.txt'
+
+In the dataloader Folder we have a custom file where we can modify the behavior of how we load the data and what pre process we apply to them.
