@@ -65,6 +65,6 @@ label_image_4.txt
 .....
 label_image_n.txt
 ```
-We should have a 'train.txt', 'train_labels.txt' and a 'validation.txt' file, 'validation_labels.txt'
+We should have a 'train.txt', 'train_labels.txt' and a 'validation.txt', 'validation_labels.txt' files.
 
-In the dataloader Folder we have a custom file where we can modify the behavior of how we load the data and what pre process we apply to them.
+In the dataloader Folder we have a custom file where we can modify the behavior of how we load the data and what pre process we want apply them.
