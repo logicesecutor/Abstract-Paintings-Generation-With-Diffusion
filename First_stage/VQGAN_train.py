@@ -11,7 +11,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from models.vqgan import VQModel
 from modules.util import instantiate_from_config, makeDirectories, trainTestSubdivision
 
-ROOT_PATH = "Deep-Learning-Techniques-for-Image-Generation-from-Music/"
+ROOT_PATH = "Deep-Learning-Techniques-for-Image-Generation-from-Music"
 # Settings for the training
 
 if __name__ == "__main__":
@@ -20,20 +20,21 @@ if __name__ == "__main__":
     assert torch.cuda.is_available()
     seed_everything(43)
     
+    experiment_name = "VQGAN-finetuning"
     experiment_cfg_path = ROOT_PATH + "/configs/custom_vqgan.yaml"
     config = OmegaConf.load(experiment_cfg_path)
 
+    ckpt_path = "/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music/pretrained_model/vq-f8/model.ckpt"
 
     dataset_name = config.data.dataset_name
     model_name = config.model.name
 
-    sample_folder = ROOT_PATH + f"/sample/{model_name}/{dataset_name}"
     checkpts_save_folder = ROOT_PATH + f"/model_checkpts/{model_name}/{dataset_name}"
     logger_save_folder = ROOT_PATH + "/logs"
+
      
     dataset_path = f"/mnt/data1/bardella_data/gitRepos/Thesis/Datasets/{dataset_name}"
 
-    #makeDirectories((sample_folder, checkpts_save_folder))
     train_path, test_path, train_labels, test_labels = trainTestSubdivision(dataset_path)
 
     config.data.params.train.params["training_images_list_file"] = train_path
@@ -69,7 +70,7 @@ if __name__ == "__main__":
 
     imageLogger = instantiate_from_config(config.lightning.callbacks.image_logger)
     tb_logger = TensorBoardLogger(save_dir=logger_save_folder,
-                                  name="VQGAN_training",
+                                  name=experiment_name,
                                   )
 
     checkpoint_callback = ModelCheckpoint(
@@ -77,7 +78,7 @@ if __name__ == "__main__":
         save_last=True,
         monitor=config.model.params.monitor,
         mode="min",
-        dirpath="/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting/model_checkpts/vqgan/wikiart/vq-f8",
+        dirpath= checkpts_save_folder + "/vq-f8",
         filename="VQGAN-hierarchical-{epoch:02d}-{rec_loss}",
     )
 
@@ -86,7 +87,7 @@ if __name__ == "__main__":
                          max_epochs=epochs,
                          devices=n_gpus, 
                          accelerator="gpu", 
-                         #strategy="ddp_find_unused_parameters_true",
+                         strategy="ddp_find_unused_parameters_true",
                          deterministic=True, 
                          callbacks= [checkpoint_callback, imageLogger],
                          num_sanity_val_steps = 2,
@@ -95,5 +96,5 @@ if __name__ == "__main__":
 
     trainer.fit(model,
                 data,
-                #ckpt_path="/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting/model_checkpts/vqgan/wikiart/vq-f8/VQGAN-hierarchical-epoch=32-rec_loss=0.ckpt"
+                ckpt_path=ckpt_path
     )
