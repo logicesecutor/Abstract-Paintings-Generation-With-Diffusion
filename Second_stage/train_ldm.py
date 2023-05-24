@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music")
+
 import torch, wget, os
 from zipfile import ZipFile
 from omegaconf import OmegaConf
@@ -6,7 +9,7 @@ from pytorch_lightning import seed_everything
 from pytorch_lightning.loggers import TensorBoardLogger
 from modules.util import instantiate_from_config, makeDirectories, trainTestSubdivision, extractFile
 
-ROOT_PATH = "/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting"
+ROOT_PATH = "Deep-Learning-Techniques-for-Image-Generation-from-Music"
 
 def load_model_from_config(config, ckpt):
     print(f"Loading model from {ckpt}")

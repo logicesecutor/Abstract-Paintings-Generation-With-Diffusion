@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music")
+
 import torch
 from omegaconf import OmegaConf
 from sklearn.model_selection import train_test_split
@@ -8,7 +11,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from models.vqgan import VQModel
 from modules.util import instantiate_from_config, makeDirectories, trainTestSubdivision
 
-ROOT_PATH = "/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting"
+ROOT_PATH = "Deep-Learning-Techniques-for-Image-Generation-from-Music/"
 # Settings for the training
 
 if __name__ == "__main__":
@@ -30,7 +33,7 @@ if __name__ == "__main__":
      
     dataset_path = f"/mnt/data1/bardella_data/gitRepos/Thesis/Datasets/{dataset_name}"
 
-    makeDirectories((sample_folder, checkpts_save_folder))
+    #makeDirectories((sample_folder, checkpts_save_folder))
     train_path, test_path, train_labels, test_labels = trainTestSubdivision(dataset_path)
 
     config.data.params.train.params["training_images_list_file"] = train_path
@@ -58,8 +61,8 @@ if __name__ == "__main__":
         print(f"Setting learning rate to {model.learning_rate:.2e} = {accumulate_grad_batches} (accumulate_grad_batches) * {n_gpus} (num_gpus) * {bs} (batchsize) * {base_lr:.2e} (base_lr)")
     else:
         model.learning_rate = base_lr
-        print("++++ NOT USING LR SCALING ++++")
-        print(f"Setting learning rate to {model.learning_rate:.2e}")
+        print("\n++++ NOT USING LR SCALING ++++")
+        print(f"Setting learning rate to {model.learning_rate:.2e}\n")
 
     # Load the data module and the tensorboard logger for the training
     data = instantiate_from_config(config.data)
@@ -75,7 +78,7 @@ if __name__ == "__main__":
         monitor=config.model.params.monitor,
         mode="min",
         dirpath="/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting/model_checkpts/vqgan/wikiart/vq-f8",
-        filename="VQGAN-hierarchical-{epoch:02d}-{aeloss}",
+        filename="VQGAN-hierarchical-{epoch:02d}-{rec_loss}",
     )
 
 
@@ -92,5 +95,5 @@ if __name__ == "__main__":
 
     trainer.fit(model,
                 data,
-                ckpt_path="/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting/model_checkpts/vqgan/wikiart/vq-f8/VQGAN-hierarchical-epoch=32-rec_loss=0.ckpt"
+                #ckpt_path="/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting/model_checkpts/vqgan/wikiart/vq-f8/VQGAN-hierarchical-epoch=32-rec_loss=0.ckpt"
     )

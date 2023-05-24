@@ -79,12 +79,14 @@ data:
     train:
       target: dataloader.custom.WikiartImageDatasetTrain
       params:
+        uncond_label: 8
         training_images_list_file: /some/train.txt
         train_labels_file: /some/train_labels.txt
         size: 256
     validation:
       target: dataloader.custom.WikiartImageDatasetTest
       params:
+        uncond_label: 8
         test_images_list_file: /some/test.txt
         test_labels_file: /some/test_labels.txt
         size: 256
