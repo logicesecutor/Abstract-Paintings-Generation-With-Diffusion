@@ -1,0 +1,5 @@
+arancione vs all dataset: 107.86773681640625
+bianco vs all dataset: 75.92110443115234
+blu vs all dataset: 105.39450073242188
+nero vs all dataset: 101.06595611572266
+verde vs all dataset: 117.11769104003906

@@ -1,0 +1,5 @@
+arancione vs arancione: 99.76371765136719
+bianco vs bianco: 79.54119110107422
+blu vs blu: 158.08682250976562
+nero vs nero: 96.2914810180664
+verde vs verde: 102.91808319091797
