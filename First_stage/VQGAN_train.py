@@ -24,7 +24,7 @@ if __name__ == "__main__":
     experiment_cfg_path = ROOT_PATH + "/configs/custom_vqgan.yaml"
     config = OmegaConf.load(experiment_cfg_path)
 
-    ckpt_path = "/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music/pretrained_model/vq-f8/model.ckpt"
+    ckpt_path = "/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music/model_checkpts/vqgan/wikiart/vq-f8/last.ckpt"
 
     dataset_name = config.data.dataset_name
     model_name = config.model.name
