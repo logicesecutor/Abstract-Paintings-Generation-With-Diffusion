@@ -68,6 +68,6 @@ lightning:
 
   trainer:
     benchmark: True
-    n_gpus: [0,1,3]
+    n_gpus: [0]
     n_epochs: 300
 
