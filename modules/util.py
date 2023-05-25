@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import json
 import torchvision
 from torch.utils.data._utils.collate import np_str_obj_array_pattern, default_collate_err_msg_format
-from torch._six import string_classes
+# from torch._six import string_classes
 from PIL import Image, ImageDraw, ImageFont
 from pytorch_lightning.utilities import rank_zero_only
 from zipfile import ZipFile
@@ -254,8 +254,8 @@ def custom_collate(batch):
         return torch.tensor(batch, dtype=torch.float64)
     elif isinstance(elem, int):
         return torch.tensor(batch)
-    elif isinstance(elem, string_classes):
-        return batch
+    # elif isinstance(elem, string_classes):
+    #     return batch
     elif isinstance(elem, collections.abc.Mapping):
         return {key: custom_collate([d[key] for d in batch]) for key in elem}
     elif isinstance(elem, tuple) and hasattr(elem, '_fields'):  # namedtuple
