@@ -1,0 +1,73 @@
+model:
+  name: vqgan
+  base_learning_rate: 4.5e-06
+  scale_lr: false
+  target: models.autoencoder.VQModel
+  params:
+    embed_dim: 4
+    n_embed: 16384
+    monitor: val/rec_loss
+    automatic_optimization: False
+    ddconfig:
+      double_z: false
+      z_channels: 4
+      resolution: 256
+      in_channels: 3
+      out_ch: 3
+      ch: 128
+      ch_mult:
+      - 1
+      - 2
+      - 2
+      - 4
+      num_res_blocks: 2
+      attn_resolutions:
+      - 32
+      dropout: 0.0
+
+    lossconfig:
+      target: modules.losses.vqperceptual.VQLPIPSWithDiscriminator
+      params:
+        disc_conditional: false
+        disc_in_channels: 3
+        disc_num_layers: 2
+        disc_start: 1
+        disc_weight: 0.6
+        codebook_weight: 1.0
+
+data:
+  dataset_name: wikiart
+  target: dataloader.datamodule.DataModuleFromConfig
+  params:
+    batch_size: 12
+    num_workers: 20
+    train:
+      target: dataloader.custom.WikiartImageDatasetTrain
+      params:
+        # added only for compatibility with the second stage
+        uncond_label: 8
+        training_images_list_file: /some/train.txt
+        size: 256
+    validation:
+      target: dataloader.custom.WikiartImageDatasetTest
+      params:
+        # Added only for compatibility with the second stage
+        uncond_label: 8 
+        test_images_list_file: /some/test.txt
+        size: 256
+
+
+lightning:
+  callbacks:
+    image_logger:
+      target: dataloader.datamodule.ImageLogger
+      params:
+        batch_frequency: 500
+        max_images: 4
+        increase_log_steps: False
+
+  trainer:
+    benchmark: True
+    n_gpus: [0]
+    n_epochs: 300
+
