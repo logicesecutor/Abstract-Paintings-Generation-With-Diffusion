@@ -1,5 +1,8 @@
+# Set this path to be compatible with both linux and windows
+ROOT_PATH = "F:\\Thesis\\Deep-Learning-Techniques-for-Image-Generation-from-Music"
+
 import sys
-sys.path.append("/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music")
+sys.path.append(ROOT_PATH)
 
 import torch
 from omegaconf import OmegaConf
@@ -11,9 +14,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from models.vqgan import VQModel
 from modules.util import instantiate_from_config, makeDirectories, trainTestSubdivision
 
-ROOT_PATH = "Deep-Learning-Techniques-for-Image-Generation-from-Music"
 # Settings for the training
-
 if __name__ == "__main__":
 
     torch.set_float32_matmul_precision('high')
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     experiment_cfg_path = ROOT_PATH + "/configs/custom_vqgan.yaml"
     config = OmegaConf.load(experiment_cfg_path)
 
-    ckpt_path = "/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music/model_checkpts/vqgan/wikiart/vq-f8/last.ckpt"
+    ckpt_path = ROOT_PATH + f"/pretrained_model/vq-f8/model.ckpt"
 
     dataset_name = config.data.dataset_name
     model_name = config.model.name
@@ -33,7 +34,8 @@ if __name__ == "__main__":
     logger_save_folder = ROOT_PATH + "/logs"
 
      
-    dataset_path = f"/mnt/data1/bardella_data/gitRepos/Thesis/Datasets/{dataset_name}"
+    # Directory of the Dataset
+    dataset_path = ROOT_PATH + f"/Datasets/{dataset_name}"
 
     train_path, test_path, train_labels, test_labels = trainTestSubdivision(dataset_path)
 
@@ -69,7 +71,7 @@ if __name__ == "__main__":
     data = instantiate_from_config(config.data)
 
     imageLogger = instantiate_from_config(config.lightning.callbacks.image_logger)
-    tb_logger = TensorBoardLogger(save_dir=logger_save_folder,
+    logger = TensorBoardLogger(save_dir=logger_save_folder,
                                   name=experiment_name,
                                   )
 
@@ -87,11 +89,11 @@ if __name__ == "__main__":
                          max_epochs=epochs,
                          devices=n_gpus, 
                          accelerator="gpu", 
-                         strategy="ddp_find_unused_parameters_true",
+                         #strategy="ddp_find_unused_parameters_true",
                          deterministic=True, 
                          callbacks= [checkpoint_callback, imageLogger],
                          num_sanity_val_steps = 2,
-                         logger=[tb_logger],
+                         logger=[logger],
                          )
 
     trainer.fit(model,

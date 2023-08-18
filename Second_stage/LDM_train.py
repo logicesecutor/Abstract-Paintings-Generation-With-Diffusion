@@ -1,5 +1,8 @@
+# Set this path to be compatible with both linux and windows
+ROOT_PATH = "F:\\Thesis\\Deep-Learning-Techniques-for-Image-Generation-from-Music"
+
 import sys
-sys.path.append("/mnt/data1/bardella_data/gitRepos/Deep-Learning-Techniques-for-Image-Generation-from-Music")
+sys.path.append(ROOT_PATH)
 
 import torch, wget, os
 from zipfile import ZipFile
@@ -9,7 +12,6 @@ from pytorch_lightning import seed_everything
 from pytorch_lightning.loggers import TensorBoardLogger
 from modules.util import instantiate_from_config, makeDirectories, trainTestSubdivision, extractFile
 
-ROOT_PATH = "Deep-Learning-Techniques-for-Image-Generation-from-Music"
 
 def load_model_from_config(config, ckpt):
     print(f"Loading model from {ckpt}")
@@ -23,7 +25,7 @@ def load_model_from_config(config, ckpt):
 
 
 def get_model():
-    config = OmegaConf.load("configs/latent-diffusion/cin256-v2.yaml")  
+    config = OmegaConf.load(ROOT_PATH + "configs/latent-diffusion/cin256-v2.yaml")  
     model = load_model_from_config(config, "models/ldm/cin256-v2/model.ckpt")
     return model
 
@@ -43,26 +45,32 @@ if __name__ == "__main__":
 
     n_classes = config.model.params.cond_stage_config.params["n_classes"]
 
+    # Directory where to save generated samples
     sample_folder = ROOT_PATH + f"/sample/{model_name}/{dataset_name}"
+
+    # Directory where to save check points
     checkpts_save_folder = ROOT_PATH + f"/model_checkpts/{model_name}/{dataset_name}"
-    logger_path = ROOT_PATH 
 
-    dataset_path = f"/mnt/data1/bardella_data/gitRepos/Thesis/Datasets/{dataset_name}"
+    # Directory where to log
+    logger_path = ROOT_PATH + "/logs" 
 
+    # Directory of the Dataset
+    dataset_path = ROOT_PATH + f"/Datasets/{dataset_name}"
+    # Dataset extraction
+    extractFile(ROOT_PATH + "/Datasets/absfig_filtered_tfr.zip", dataset_path)
+
+    # Link to download the vq-Gan pretrained model with reduction factor of 8 (256x256 -> 32x32)
     vq_gan_pretrained_path = ROOT_PATH + "/pretrained_model/vq-f8"
     pretrained_url = "https://ommer-lab.com/files/latent-diffusion/vq-f8.zip"
-    
-    # Generate some utility Directories if they does not exixt
-    makeDirectories((sample_folder, checkpts_save_folder, logger_path, vq_gan_pretrained_path))
-
-    # Dataset extraction
-    extractFile("/mnt/data1/bardella_data/gitRepos/Thesis/Datasets/absfig_filtered_tfr.zip", dataset_path)
 
     # Download Autoencoder pretrained model if does not exist
     if not os.path.isfile(vq_gan_pretrained_path + "/model.ckpt"):
       wget.download(pretrained_url, out = vq_gan_pretrained_path + "/vq-f8.zip")
       with ZipFile(vq_gan_pretrained_path + "/vq-f8.zip", "r") as zipObj:
         zipObj.extractall(vq_gan_pretrained_path)
+
+    # Generate some utility Directories if they does not exixt
+    makeDirectories((sample_folder, checkpts_save_folder, logger_path, vq_gan_pretrained_path))
 
     config.model.params.first_stage_config.params["ckpt_path"] = vq_gan_pretrained_path + "/model.ckpt"
 
@@ -76,7 +84,6 @@ if __name__ == "__main__":
     config.data.params.validation.params["test_images_list_file"] = train_path
     config.data.params.validation.params["test_labels_file"] = test_labels
     config.data.params.validation.params["uncond_label"] = n_classes - 1
-
 
     # Batch size and Learning rate setted for the pytorch-lightning Trainer
     bs, base_lr = config.data.params.batch_size, config.model.base_learning_rate
@@ -104,18 +111,17 @@ if __name__ == "__main__":
     data = instantiate_from_config(config.data)
     logger = TensorBoardLogger(save_dir=logger_path, name="LDM_training")
 
-    trainer_callbacks = instantiate_from_config(config=config.lightning.callbacks.image_logger)
+    imageLogger = instantiate_from_config(config=config.lightning.callbacks.image_logger)
 
     trainer = pl.Trainer(default_root_dir= checkpts_save_folder,
                          max_epochs=epochs,
-                         devices=1, 
-                         accelerator="cpu", 
+                         devices= 1, #n_gpus, 
+                         accelerator="gpu" , 
                          deterministic=True,
-                         #callbacks= [trainer_callbacks],
-                         #enable_checkpointing=True, 
-                         num_sanity_val_steps = 0,
-                         #logger=logger, 
+                         callbacks= [imageLogger],
+                         num_sanity_val_steps = 2,
+                         logger=logger, 
                          #strategy="fsdp",
-                         #precision="16-mixed",
+                         #precision="16-mixed", # Set To exploit the Tensor Cores if available
                          )
     trainer.fit(model, data)

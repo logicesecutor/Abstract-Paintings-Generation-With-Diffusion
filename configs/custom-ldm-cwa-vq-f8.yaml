@@ -96,7 +96,7 @@ lightning:
     image_logger:
       target: dataloader.datamodule.ImageLogger
       params:
-        batch_frequency: 1
+        batch_frequency: 1000  # How many training steps we generate evaluation  images. Should match the training sample of an epoch
         max_images: 8
         increase_log_steps: False
 
