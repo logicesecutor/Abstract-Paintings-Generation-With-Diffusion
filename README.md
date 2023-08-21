@@ -1,8 +1,8 @@
 # Deep-Learning-Techniques-for-Image-Generation-from-Music
-Diffusion Pipeline implementation for Abstract-Art image generation using a class-conditioned Latent Diffusion Models. 
-All the used model are highly based on the models in the following repos:
+Diffusion Pipeline implementation for Abstract-Art image generation using a class-conditioned Latent Diffusion Model. 
+All the used models are highly based on the models in the following repos:
 - [Latent Diffusion](https://github.com/CompVis/latent-diffusion) for the U-Net denoiser.
-- [Taming Tranformers](https://github.com/CompVis/taming-transformers) for the VQ-GAN model and pretrained model.
+- [Taming Tranformers](https://github.com/CompVis/taming-transformers) for the VQ-GAN model and pre-trained model.
 
 
 ## Clone a private repo
@@ -14,15 +14,15 @@ git clone https://[PAT]@github.com/[username]/reponame.git some/dest/dir
 
 ## Environment settings
 ### Setting a local environment
-To perfectly replicate the environment on a local system I suggest to use a conda environment to run the model. 
-I provide the repo with a environment.yaml from which we can import the dependencies:
+To perfectly reproduce the environment on a local system, I think you should use a conda environment to run the model. 
+I provide the repo with an environment.yaml from which we can import the dependencies:
 
 ```bash
 conda env create -f environment.yaml
 conda activate thesis
 ```
 
-Below here, I also reported all the bash/shell command that I used to create the environment during the development. They should be ran in sequence:
+Below, I also reported all the bash/shell commands I used to create the environment during the development. They should be run in sequence:
 
 ```bash
 conda create -n nameOfEnv python=3.9
@@ -40,12 +40,17 @@ pip install wget
 ### Setting a CoLab environment
 
 ## The Dataset preparation
+The used dataset is a custom version of Wikiart subdivided into 8 different color labels.
+The dataset needs to be downloaded and the zip file must be put in the Datasets directory.
+When the **"LDM_train.py"** file will extract all the dataset and will generate the necessary files for the training.
+
+[Dataset Download link](https://github.com/CompVis/latent-diffusion)
 
 ## The Configuration file
-In the configs folder there are some configuration files which contains the settings for the training phase.
-From here we can set the VQGAN, the diffusion model, and manage all the Dataset directory.
+In the configs folder, there are some configuration files that contain the settings for the training phase.
+From here we can set the VQGAN, the diffusion model, and manage all the Dataset directories.
 
-In order to give the net our custom dataset we must provide 2 file txt that contains the path list to single images and 2 file txt which contains the categorical labels corresponding to the images in this format:
+In order to give the net our custom dataset we must provide 2 files txt that contain the path list to single images and 2 file txt which include the categorical labels corresponding to the images in this format:
 
 ```
 $path/to/dataset/train.txt
@@ -65,6 +70,6 @@ label_image_4.txt
 .....
 label_image_n.txt
 ```
-We should have a 'train.txt', 'train_labels.txt' and a 'validation.txt', 'validation_labels.txt' files.
+We should have a 'train.txt', 'train_labels.txt', and a 'validation.txt', 'validation_labels.txt' files.
 
-In the dataloader Folder we have a custom file where we can modify the behavior of how we load the data and what pre process we want apply them.
+In the data loader folder, we have a custom file where we can modify the behavior of how we load the data and what pre-process we want to apply them.
