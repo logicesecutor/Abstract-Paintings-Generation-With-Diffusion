@@ -78,3 +78,42 @@ label_image_n.txt
 We should have a 'train.txt', 'train_labels.txt', and a 'validation.txt', 'validation_labels.txt' files.
 
 In the dataloader folder, we have a custom file where we can modify the behavior of how we load the data and what pre-process we want to apply.
+
+# Two stages
+We have two stages:
+- The first one is the Encoder which can be trained in the **VQGAN_train.py** script.
+- The second one is the Diffusion phase which can be trained using the **LDM_train.py** script.
+  
+## Training and model settings
+Every setting of the model, the number of GPU, the epoch, and Batch size can be modified in the config_file.yaml in the config folder:
+- ***"custom_vqgan.yaml"*** for the first stage.
+- ***"custom-ldm-cwa-vq-f8.yaml"*** for the second stage
+
+## Pre-trained model
+If we want to use a pre-trained model and pass it to the trainer we should provide the model directory-path to the trainer fit function.
+
+```python
+ckpt_path = "/path/to/pre-trained/model.ckpt"
+trainer = pl.Trainer(...)
+trainer.fit(model,
+            data,
+            ckpt_path=ckpt_path
+)
+```
+
+For the first stage I have used the vq-gan f=8, VQ (Z=16384, d=4) from latent diffusion:
+
+[VQ-GAN f=8 Download link](https://ommer-lab.com/files/latent-diffusion/vq-f8.zip)
+
+Other pre-trained models can be downloaded from the official implementation of latent diffusion and taming transformers.
+
+The second stage was trained from scratch and here I leave the download to my trained model:
+
+This model was trained for a total of 300 epochs on an A100 40GB with a batch size of 64.
+
+[LDM-300 Download link](https://ommer-lab.com/files/latent-diffusion/vq-f8.zip)
+
+## NOTE!
+At the start of each script, we should change the ***ROOT_PATH*** Variable to make the script work both on Linux and Windows and be easily transferable to a notebook-style script.
+
+For each train script, there is also the relative inference script.
