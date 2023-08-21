@@ -53,7 +53,7 @@ The used dataset is a custom version of Wikiart subdivided into 8 different colo
 The dataset needs to be downloaded and the zip file must be put in the Datasets directory.
 When the **"LDM_train.py"** file will extract all the dataset and will generate the necessary files for the training.
 
-[Dataset Download link](https://github.com/CompVis/latent-diffusion)
+[Dataset Download link](https://drive.google.com/file/d/1LSfJZ6IAWbCi8jAQJ2IHV9afUbwFbZ4V/view?usp=drive_link)
 
 ## The Configuration file
 In the configs folder, there are some configuration files that contain the settings for the training phase.
@@ -111,7 +111,7 @@ The second stage was trained from scratch and here I leave the download to my tr
 
 This model was trained for a total of 300 epochs on an A100 40GB with a batch size of 64.
 
-[LDM-300 Download link](https://ommer-lab.com/files/latent-diffusion/vq-f8.zip)
+[LDM-300 Download link](https://drive.google.com/file/d/13NikX84LivRciepkZB2mi5vZI-183ZZ8/view?usp=drive_link)
 
 ## NOTE!
 At the start of each script, we should change the ***ROOT_PATH*** Variable to make the script work both on Linux and Windows and be easily transferable to a notebook-style script.
