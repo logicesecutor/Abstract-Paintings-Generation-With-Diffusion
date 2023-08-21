@@ -38,6 +38,15 @@ pip install albumentations=1.3.0
 pip install wget
 ```
 ### Setting a CoLab environment
+In order to make it work on colab we should install those package version
+
+```bash
+!pip install pytorch-lightning==1.9.4
+!pip install einops
+!pip install omegaconf
+!pip install kornia
+!pip install wget
+```
 
 ## The Dataset preparation
 The used dataset is a custom version of Wikiart subdivided into 8 different color labels.
@@ -56,8 +65,6 @@ In order to give the net our custom dataset we must provide 2 files txt that con
 $path/to/dataset/train.txt
 path_to_image_1.txt
 path_to_image_2.txt
-path_to_image_3.txt
-path_to_image_4.txt
 .....
 path_to_image_n.txt
 ```
@@ -65,11 +72,9 @@ path_to_image_n.txt
 $path/to/dataset/train_labels.txt
 label_image_1.txt
 label_image_2.txt
-label_image_3.txt
-label_image_4.txt
 .....
 label_image_n.txt
 ```
 We should have a 'train.txt', 'train_labels.txt', and a 'validation.txt', 'validation_labels.txt' files.
 
-In the data loader folder, we have a custom file where we can modify the behavior of how we load the data and what pre-process we want to apply them.
+In the dataloader folder, we have a custom file where we can modify the behavior of how we load the data and what pre-process we want to apply.
