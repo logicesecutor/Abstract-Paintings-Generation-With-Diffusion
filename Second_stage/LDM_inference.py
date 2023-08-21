@@ -1,3 +1,9 @@
+# Set this path to be compatible with both linux and windows
+ROOT_PATH = "F:\\Thesis\\Deep-Learning-Techniques-for-Image-Generation-from-Music"
+
+import sys
+sys.path.append(ROOT_PATH)
+
 import torch
 from omegaconf import OmegaConf
 import os
@@ -7,9 +13,6 @@ import numpy as np
 from PIL import Image
 from einops import rearrange
 from torchvision.utils import make_grid
-
-ROOT_PATH = "/mnt/data1/bardella_data/gitRepos/Thesis/ldm_porting"
-
 
 def load_model_from_config(config, ckpt):
     print(f"Loading model from {ckpt}")
