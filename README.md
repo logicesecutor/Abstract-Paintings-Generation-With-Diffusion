@@ -1,8 +1,12 @@
 # Deep-Learning-Techniques-for-Image-Generation-from-Music
+This project was born with the aim of understanding and implementing a Diffusion model capable of generating abstract paintings starting from a classical music audio source.
+
+<img src="https://github.com/logicesecutor/RayCasting/blob/main/src/final_results.gif" alt="Working Algorithm" width="800"/>
+
 Diffusion Pipeline implementation for Abstract-Art image generation using a class-conditioned Latent Diffusion Model. 
 All the used models are highly based on the models in the following repos:
 - [Latent Diffusion](https://github.com/CompVis/latent-diffusion) for the U-Net denoiser.
-- [Taming Tranformers](https://github.com/CompVis/taming-transformers) for the VQ-GAN model and pre-trained model.
+- [Taming Tranformers](https://github.com/CompVis/taming-transformers) for the VQ-GAN and pre-trained models.
 
 
 ## Clone a private repo
@@ -14,7 +18,7 @@ git clone https://[PAT]@github.com/[username]/reponame.git some/dest/dir
 
 ## Environment settings
 ### Setting a local environment
-To perfectly reproduce the environment on a local system, I think you should use a conda environment to run the model. 
+To perfectly reproduce the environment on a local system, you should use a conda environment to run the model. 
 I provide the repo with an environment.yaml from which we can import the dependencies:
 
 ```bash
@@ -51,7 +55,7 @@ In order to make it work on colab we should install those package version
 ## The Dataset preparation
 The used dataset is a custom version of Wikiart subdivided into 8 different color labels.
 The dataset needs to be downloaded and the zip file must be put in the Datasets directory.
-When the **"LDM_train.py"** file will extract all the dataset and will generate the necessary files for the training.
+When the **"LDM_train.py"** file will extract all the dataset and generate the necessary training files.
 
 [Dataset Download link](https://drive.google.com/file/d/1LSfJZ6IAWbCi8jAQJ2IHV9afUbwFbZ4V/view?usp=drive_link)
 
@@ -85,12 +89,12 @@ We have two stages:
 - The second one is the Diffusion phase which can be trained using the **LDM_train.py** script.
   
 ## Training and model settings
-Every setting of the model, the number of GPU, the epoch, and Batch size can be modified in the config_file.yaml in the config folder:
+Every setting of the model, the number of GPU, the epoch, and the Batch size can be modified in the config_file.yaml in the config folder:
 - ***"custom_vqgan.yaml"*** for the first stage.
 - ***"custom-ldm-cwa-vq-f8.yaml"*** for the second stage
 
 ## Pre-trained model
-If we want to use a pre-trained model and pass it to the trainer we should provide the model directory-path to the trainer fit function.
+If we want to use a pre-trained model and pass it to the trainer we should provide the model directory path to the trainer fit function.
 
 ```python
 ckpt_path = "/path/to/pre-trained/model.ckpt"
