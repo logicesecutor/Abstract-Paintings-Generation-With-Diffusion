@@ -117,7 +117,7 @@ The second stage was trained from scratch and here I leave the download to my tr
 
 This model was trained for a total of 300 epochs on an A100 40GB with a batch size of 64.
 
-[LDM-300 Download link](https://drive.google.com/file/d/13NikX84LivRciepkZB2mi5vZI-183ZZ8/view?usp=drive_link)
+[LDM-300 Download link](https://drive.google.com/file/d/17fDxxj9FaIlmscU-C4bFpcO9_oSjSXxg/view?usp=sharing)
 
 ## NOTE!
 At the start of each script, we should change the ***ROOT_PATH*** Variable to make the script work both on Linux and Windows and be easily transferable to a notebook-style script.
