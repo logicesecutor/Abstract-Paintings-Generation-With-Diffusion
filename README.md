@@ -111,7 +111,7 @@ For the first stage I have used the vq-gan f=8, VQ (Z=16384, d=4) from latent di
 
 [VQ-GAN f=8 Download link](https://ommer-lab.com/files/latent-diffusion/vq-f8.zip)
 
-Other pre-trained models can be downloaded from the official implementation of latent diffusion and taming transformers.
+Other pre-trained models for the VQ-GAN can be downloaded from the official implementation of latent diffusion and taming transformers.
 
 The second stage was trained from scratch and here I leave the download to my trained model:
 
