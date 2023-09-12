@@ -3,6 +3,8 @@ This project was born with the aim of understanding and implementing a Diffusion
 
 <img src="https://github.com/logicesecutor/Deep-Learning-Techniques-for-Image-Generation-from-Music/blob/main/src/images/samples.png" alt="Generated Abstract Painting" width="800"/>
 
+[Canva Presentation](https://www.canva.com/design/DAFpY1yZWX4/HFZYb2ljxsgSWN2X40T-fg/edit?utm_content=DAFpY1yZWX4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton).
+
 Diffusion Pipeline implementation for Abstract-Art image generation using a class-conditioned Latent Diffusion Model. 
 All the used models are highly based on the models in the following repos:
 - [Latent Diffusion](https://github.com/CompVis/latent-diffusion) for the U-Net denoiser.
