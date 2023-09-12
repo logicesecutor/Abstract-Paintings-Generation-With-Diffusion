@@ -1,7 +1,7 @@
 # Deep-Learning-Techniques-for-Image-Generation-from-Music
 This project was born with the aim of understanding and implementing a Diffusion model capable of generating abstract paintings starting from a classical music audio source.
 
-<img src="https://github.com/logicesecutor/Deep-Learning-Techniques-for-Image-Generation-from-Music/blob/main/src/images/orange.png" alt="Generated Abstract Painting" width="500"/>
+<img src="https://github.com/logicesecutor/Deep-Learning-Techniques-for-Image-Generation-from-Music/blob/main/src/images/orange.png" alt="Generated Abstract Painting" width="300"/>
 
 Diffusion Pipeline implementation for Abstract-Art image generation using a class-conditioned Latent Diffusion Model. 
 All the used models are highly based on the models in the following repos:
